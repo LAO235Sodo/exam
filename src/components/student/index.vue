@@ -5,10 +5,10 @@
       <el-col :span="24">
         <ul class="list">
           <li class="logo"><i class="iconfont icon-kaoshi"></i><span>在线考试系统</span></li>
-          <li><a href="javascript:;" @click="exam()">我的试卷</a></li>
-          <li><a href="javascript:;" @click="practice()">我的练习</a></li>
-          <li><router-link to="/scoreTable">我的分数</router-link></li>
-          <li><router-link to="/message">留言</router-link></li>
+          <li><a  href="javascript:;" @click="exam()">我的试卷</a></li>
+          <li><a  href="javascript:;" @click="practice()">我的练习</a></li>
+          <li><router-link to="/scoreTable"><a>我的分数</a></router-link></li>
+          <li><router-link to="/message"><a>留言</a></router-link></li>
           <!-- <li><a href="javascript:;">待定</a></li> -->
           <li class="right" @mouseenter="flag = !flag" @mouseleave="flag = !flag">
             <a href="javascript:;"><i class="iconfont icon-Userselect icon"></i>{{user.userName}}</a>
@@ -86,11 +86,11 @@ export default {
   margin: 0 auto;
   padding: 0 50px;
   box-shadow: 0 0 10px 4px rgba(1,149,255,0.1);
-  background-color: #fff;
+  background-color: rgb(17, 14, 14);
 }
 .list a {
   text-decoration: none;
-  color: #334046;
+ color:white;
 }
 li {
   list-style: none;

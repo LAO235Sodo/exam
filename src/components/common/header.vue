@@ -4,7 +4,7 @@
     <el-row>
       <el-col :span="4" class="topbar-left">
         <i class="iconfont icon-kaoshi"></i>
-        <span class="title" @click="index()">EXAM-SYSTEM</span>
+        <span class="title" @click="index()">在线考试系统</span>
       </el-col>
       <el-col :span="20" class="topbar-right">
         <i class="el-icon-menu" @click="toggle()"></i>
@@ -14,9 +14,15 @@
           <transition name="fade">
             <div class="out" ref="out" v-show="login_flag">
               <ul>
-                <li><a href="javascript:;">用户信息</a></li>
-                <li><a href="javascript:;">设置</a></li>
-                <li class="exit" @click="exit()"><a href="javascript:;">退出登录</a></li>
+                <li>
+                  <a href="javascript:;">用户信息</a>
+                </li>
+                <li>
+                  <a href="javascript:;">设置</a>
+                </li>
+                <li class="exit" @click="exit()">
+                  <a href="javascript:;">退出登录</a>
+                </li>
               </ul>
             </div>
           </transition>
@@ -28,55 +34,58 @@
 
 <script>
 import store from '@/vuex/store'
-import {mapState,mapMutations} from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 export default {
   data() {
     return {
       login_flag: false,
-      user: { //用户信息
+      user: {
+        //用户信息
         userName: null,
-        userId: null
-      } 
+        userId: null,
+      },
     }
   },
   created() {
     this.getUserInfo()
   },
-  computed: mapState(["flag","menu"]),
+  computed: mapState(['flag', 'menu']),
   methods: {
     //显示、隐藏退出按钮
     showSetting() {
       this.login_flag = !this.login_flag
     },
     //左侧栏放大缩小
-    ...mapMutations(["toggle"]),
-    getUserInfo() { //获取用户信息
-      let userName = this.$cookies.get("cname")
-      let userId = this.$cookies.get("cid")
+    ...mapMutations(['toggle']),
+    getUserInfo() {
+      //获取用户信息
+      let userName = this.$cookies.get('cname')
+      let userId = this.$cookies.get('cid')
       this.user.userName = userName
       this.user.userId = userId
     },
     index() {
-      this.$router.push({path: '/index'})
+      this.$router.push({ path: '/index' })
     },
     exit() {
-      let role = this.$cookies.get("role")
-      this.$router.push({path:"/"}) //跳转到登录页面
-      this.$cookies.remove("cname") //清除cookie
-      this.$cookies.remove("cid")
-      this.$cookies.remove("role")
-      if(role == 0) {
+      let role = this.$cookies.get('role')
+      this.$router.push({ path: '/' }) //跳转到登录页面
+      this.$cookies.remove('cname') //清除cookie
+      this.$cookies.remove('cid')
+      this.$cookies.remove('role')
+      if (role == 0) {
         this.menu.pop()
       }
-    }
+    },
   },
-  store
+  store,
 }
 </script>
 
 <style scoped>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
@@ -130,6 +139,7 @@ export default {
 }
 .user .out {
   font-size: 14px;
+  width: 60px;
   position: absolute;
   top: 80px;
   right: 0px;
