@@ -1,6 +1,19 @@
 //查询所有题库
 <template>
   <div class="exam">
+    <div class="wrapper">
+      <ul class="top">
+        <li class="search-li">
+          <div class="icon">
+            <input type="text" placeholder="试卷名称" class="search" v-model="key" />
+            <i class="el-icon-search"></i>
+          </div>
+        </li>
+        <li>
+          <el-button type="primary" @click="search()">搜索试卷</el-button>
+        </li>
+      </ul>
+    </div>
     <el-table :data="pagination.records" border :row-class-name="tableRowClassName">
       <el-table-column fixed="left" prop="subject" label="试卷名称" width="180"></el-table-column>
       <el-table-column prop="question" label="题目信息" width="490"></el-table-column>
@@ -25,6 +38,7 @@
       :total="pagination.total"
       class="page"
     ></el-pagination>
+    <!-- </div> -->
   </div>
 </template>
 

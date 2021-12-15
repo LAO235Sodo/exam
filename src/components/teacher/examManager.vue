@@ -15,9 +15,22 @@
         </li>
       </ul>
       <ul class="paper" v-loading="loading">
-        <li class="item" v-for="(item, index) in pagination.records" :key="index">
-          <h4 @click="toExamMsg(item.examCode)">{{ item.source }}</h4>
-           <p class="name">{{ item.description }}</p>
+        <li class="item" v-for="(item, index) in topicData" :key="index">
+          <h4 @click="toExamMsg(item.subjectId)">{{ item.subjectName }}</h4>
+          <div class="info">
+            <div>
+              <i class="iconfont icon-fenshu"></i>
+              <span>选择题:{{item.fillNum}}</span>
+            </div>
+            <div>
+              <i class="iconfont icon-fenshu"></i>
+              <span>判断题:{{item.judgeNum }}</span>
+            </div>
+            <div>
+              <i class="iconfont icon-fenshu"></i>
+              <span>填空题:{{item.multiNum }}</span>
+            </div>
+          </div>
         </li>
       </ul>
       <div class="pagination">
@@ -43,6 +56,7 @@ export default {
       loading: false,
       key: null, //搜索关键字
       allExam: null, //所有考试信息
+      topicData: null,
       pagination: {
         //分页后的考试信息
         current: 1, //当前页
@@ -64,15 +78,13 @@ export default {
       console.log(tab, event)
     },
 
-    //获取当前所有考试信息
+    //获取当前所有题库题目
     getExamInfo() {
-      this.$axios(
-        `/api/exams/${this.pagination.current}/${this.pagination.size}`
-      )
+      this.$axios(`/api/getAllTopics`)
         .then((res) => {
-          this.pagination = res.data.data
+          this.topicData = res.data.data
+          this.pagination.total=res.data.data.length
           this.loading = false
-          console.log(this.pagination)
         })
         .catch((error) => {
           console.log(error)
@@ -90,19 +102,22 @@ export default {
     },
     //搜索试卷
     search() {
-      this.$axios('/api/exams').then((res) => {
+      this.$axios('/api/getAllTopics').then((res) => {
         if (res.data.code == 200) {
           let allExam = res.data.data
           let newPage = allExam.filter((item) => {
-            return item.source.includes(this.key)
+            return item.subjectName.includes(this.key)
           })
-          this.pagination.records = newPage
+          this.topicData = newPage
         }
       })
     },
     //跳转到试卷详情页
     toExamMsg(examCode) {
-      this.$router.push({ path: '/examMsg', query: { examCode: examCode } })
+      this.$router.push({
+        path: '/selectAnswer',
+        query: { examCode: examCode },
+      })
       console.log(examCode)
     },
   },
