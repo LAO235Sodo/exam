@@ -50,8 +50,8 @@ export default new Router({
           component: ()=> import('@/components/teacher/answerDescription')
         },
         {
-          path: '/selectAnswer', //查询所有题库
-          component: () => import('@/components/teacher/selectAnswer')
+          path: '/examManager', //查询所有题库
+          component: () => import('@/components/teacher/examManager')
         },
         {
           path: '/addAnswer', //增加题库主界面

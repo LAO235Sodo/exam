@@ -53,7 +53,7 @@ export default {
   data() {
     return {}
   },
-  computed: mapState(['flag', 'menu']),
+  computed: mapState(['flag', 'menu']),//从store.js中获取数据
   created() {
     this.addData()
   },

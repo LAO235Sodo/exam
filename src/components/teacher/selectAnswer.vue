@@ -8,6 +8,12 @@
       <el-table-column prop="type" label="题目类型" width="200"></el-table-column>
       <el-table-column prop="score" label="试题分数" width="150"></el-table-column>
       <el-table-column prop="level" label="难度等级" width="133"></el-table-column>
+      <el-table-column fixed="right" label="操作" width="150">
+        <template slot-scope="scope">
+          <el-button @click="checkGrade(scope.row.studentId)" type="primary" size="small">编辑</el-button>
+          <el-button @click="deleteById(scope.row.studentId)" type="danger" size="small">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
@@ -26,48 +32,57 @@
 export default {
   data() {
     return {
+      sign: 0,
       pagination: {
         //分页后的考试信息
         current: 1, //当前页
         total: null, //记录条数
-        size: 6 //每页条数
-      }
-    };
+        size: 6, //每页条数
+      },
+    }
   },
   created() {
-    this.getAnswerInfo();
+    this.getAnswerInfo()
   },
   methods: {
+    deleteById(id) {
+      this.$axios(`/api/remove/` + id)
+        .then((res) => {
+          this.pagination = res.data.data
+          console.log(res)
+        })
+        .catch((error) => {})
+    },
     getAnswerInfo() {
       //分页查询所有试卷信息
       this.$axios(
         `/api/answers/${this.pagination.current}/${this.pagination.size}`
       )
-        .then(res => {
-          this.pagination = res.data.data;
-          console.log(res);
+        .then((res) => {
+          this.pagination = res.data.data
+          console.log(res)
         })
-        .catch(error => {});
+        .catch((error) => {})
     },
     //改变当前记录条数
     handleSizeChange(val) {
-      this.pagination.size = val;
-      this.getAnswerInfo();
+      this.pagination.size = val
+      this.getAnswerInfo()
     },
     //改变当前页码，重新发送请求
     handleCurrentChange(val) {
-      this.pagination.current = val;
-      this.getAnswerInfo();
+      this.pagination.current = val
+      this.getAnswerInfo()
     },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2 == 0) {
-        return "warning-row";
+        return 'warning-row'
       } else {
-        return "success-row";
+        return 'success-row'
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 <style lang="scss" scoped>
 .exam {
@@ -82,16 +97,14 @@ export default {
     margin-left: 20px;
   }
   .el-table tr {
-    background-color: #DD5862 !important;
+    background-color: #dd5862 !important;
   }
 }
-  .el-table .warning-row {
-    background: #000 !important;
-    
-  }
+.el-table .warning-row {
+  background: #000 !important;
+}
 
-  .el-table .success-row {
-    background: #DD5862;
-  }
-
+.el-table .success-row {
+  background: #dd5862;
+}
 </style>
